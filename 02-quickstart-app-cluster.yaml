@@ -1,0 +1,34 @@
+# A simple example of ClusterConfig object:
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: 02-quickstart-app-cluster-02
+  region: us-east-2
+
+nodeGroups:
+  - name: ng-1
+    instanceType: m5.large
+    desiredCapacity: 2
+    iam:
+      withAddonPolicies:
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+
+cloudWatch:
+  clusterLogging:
+      # enable specific types of cluster control plane logs
+      enableTypes: ["audit", "authenticator", "controllerManager"]
+      # all supported types: "api", "audit", "authenticator", "controllerManager", "scheduler"
+      # supported special values: "*" and "all"
+      
+ddons:
+  - name: vpc-cni # no version is specified so it deploys the default version
+    attachPolicyARNs:
+      - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+  - name: coredns
+    version: latest # auto discovers the latest available
+  - name: kube-proxy
+    version: latest
