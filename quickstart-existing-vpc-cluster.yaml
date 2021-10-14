@@ -4,8 +4,21 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: quickstart-app-cluster-01
+  name: quickstart-existing-vpc-cluster-01
   region: us-east-2
+
+vpc:
+  id: "vpc-0cd9ef9417c2a2cd9"  # (optional, must match VPC ID used for each subnet below)
+  #cidr: "172.31.0.0/16"       # (optional, must match CIDR used by the given VPC)
+  subnets:
+    # must provide 'private' and/or 'public' subnets by availibility zone as shown
+    private:
+      us-east-2a:
+        id: "subnet-0116937c407ce214e"
+        #cidr: "192.168.128.0/19" # (optional, must match CIDR used by the given subnet)
+      us-east-2b:
+        id: "subnet-0557d379e8e22292a"
+        #cidr: "192.168.64.0/19"  # (optional, must match CIDR used by the given subnet)
 
 nodeGroups:
   - name: ng-1
@@ -14,6 +27,7 @@ nodeGroups:
     minSize: 1
     maxSize: 3
     volumeSize: 50
+    privateNetworking: true
     iam:
       withAddonPolicies:
         albIngress: true
@@ -28,6 +42,7 @@ nodeGroups:
     minSize: 1
     maxSize: 3
     volumeSize: 100
+    privateNetworking: true
     iam:
       withAddonPolicies:
         albIngress: true
@@ -42,6 +57,7 @@ nodeGroups:
     minSize: 1
     maxSize: 3
     volumeSize: 40
+    privateNetworking: true
     iam:
       withAddonPolicies:
         albIngress: true
@@ -50,7 +66,7 @@ nodeGroups:
         ebs: true
     ssh:
       publicKeyPath: ~/.ssh/eksctl.pub
-    availabilityZones: ["us-east-2a", "us-east-2b", "us-east-2c"]
+    availabilityZones: ["us-east-2a", "us-east-2b"]
 cloudWatch:
   clusterLogging:
       # enable specific types of cluster control plane logs

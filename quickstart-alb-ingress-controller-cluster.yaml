@@ -4,7 +4,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: quickstart-app-cluster-01
+  name: quickstart-alb-ingress-controller-cluster-01
   region: us-east-2
 
 nodeGroups:
@@ -16,41 +16,11 @@ nodeGroups:
     volumeSize: 50
     iam:
       withAddonPolicies:
-        albIngress: true
         autoScaler: true
         cloudWatch: true
         ebs: true
     ssh:
       publicKeyPath: ~/.ssh/eksctl.pub
-  - name: ng-2
-    instanceType: m5.large
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 3
-    volumeSize: 100
-    iam:
-      withAddonPolicies:
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
-        ebs: true
-    ssh:
-      publicKeyPath: ~/.ssh/eksctl.pub
-  - name: ng-3
-    instanceType: m5.large
-    desiredCapacity: 2
-    minSize: 1
-    maxSize: 3
-    volumeSize: 40
-    iam:
-      withAddonPolicies:
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
-        ebs: true
-    ssh:
-      publicKeyPath: ~/.ssh/eksctl.pub
-    availabilityZones: ["us-east-2a", "us-east-2b", "us-east-2c"]
 cloudWatch:
   clusterLogging:
       # enable specific types of cluster control plane logs
