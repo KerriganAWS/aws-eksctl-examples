@@ -4,26 +4,59 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: 02-quickstart-app-cluster
+  name: quickstart-app-cluster-01
   region: us-east-2
 
 nodeGroups:
   - name: ng-1
     instanceType: m5.large
     desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    volumeSize: 50
     iam:
       withAddonPolicies:
         albIngress: true
         autoScaler: true
         cloudWatch: true
-
+        ebs: true
+    ssh:
+      publicKeyPath: ~/.ssh/eksctl_pub
+  - name: ng-2
+    instanceType: m5.large
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    volumeSize: 100
+    iam:
+      withAddonPolicies:
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        ebs: true
+    ssh:
+      publicKeyPath: ~/.ssh/eksctl_pub
+  - name: ng-3
+    instanceType: m5.large
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    volumeSize: 40
+    iam:
+      withAddonPolicies:
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+        ebs: true
+    ssh:
+      publicKeyPath: ~/.ssh/eksctl_pub
+    availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
 cloudWatch:
   clusterLogging:
       # enable specific types of cluster control plane logs
       enableTypes: ["audit", "authenticator", "controllerManager"]
       # all supported types: "api", "audit", "authenticator", "controllerManager", "scheduler"
       # supported special values: "*" and "all"
-
 addons:
   - name: vpc-cni # no version is specified so it deploys the default version
     attachPolicyARNs:
