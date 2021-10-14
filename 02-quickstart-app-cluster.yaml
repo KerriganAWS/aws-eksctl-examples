@@ -4,7 +4,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: 02-quickstart-app-cluster-02
+  name: 02-quickstart-app-cluster
   region: us-east-2
 
 nodeGroups:
@@ -23,8 +23,8 @@ cloudWatch:
       enableTypes: ["audit", "authenticator", "controllerManager"]
       # all supported types: "api", "audit", "authenticator", "controllerManager", "scheduler"
       # supported special values: "*" and "all"
-      
-ddons:
+
+addons:
   - name: vpc-cni # no version is specified so it deploys the default version
     attachPolicyARNs:
       - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
