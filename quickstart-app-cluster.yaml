@@ -4,7 +4,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: quickstart-app-cluster-01
+  name: quickstart-app-cluster-02
   region: us-east-2
 
 nodeGroups:
